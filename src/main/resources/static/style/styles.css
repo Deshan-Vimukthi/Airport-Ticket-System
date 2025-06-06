@@ -1,0 +1,46 @@
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    height: 100vh;
+    padding-top: 20px;
+}
+#mySelect:has(option[selected]) {
+  border-left: 8px solid;
+  border-image: linear-gradient(to bottom, #ff7e5f, #feb47b) 1;
+  padding-left: 10px;
+}
+
+.form-check-input[checked=true]{
+    border-left: 8px solid;
+      border-image: linear-gradient(to bottom, #ff7e5f, #feb47b) 1;
+      padding-left: 10px;
+}
+
+/* Sidebar behavior */
+.sidebar {
+    width: 250px;
+    transition: width 0.3s;
+}
+
+.sidebar.collapsed {
+    width: 60px;
+}
+
+.sidebar.collapsed .name-container {
+    display: none;
+}
+
+/* Active item with gradient border */
+.selected-item {
+    border-left: 5px solid;
+    border-image: linear-gradient(to bottom, purple, deepskyblue) 1;
+    background-color: #f8f9fa; /* light background for contrast */
+}
+
+/* Make icon + text vertically aligned */
+.item-link {
+    display: flex;
+    align-items: center;
+    color: inherit;
+}
