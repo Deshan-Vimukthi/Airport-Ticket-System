@@ -38,7 +38,7 @@ public class CustomerController {
         return customerDao.findAll();
     }
 
-    @PreAuthorize("hasAthourity('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/data/id")
     public Customer getCustomer(@RequestParam("id") Integer id){
         return customerDao.getReferenceById(id);
