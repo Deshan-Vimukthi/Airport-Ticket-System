@@ -15,10 +15,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRole {
+
     @Id
     @Column(name = "id")
     private Integer id;
 
     @Column(name = "name")
     private String name;
+
+    public enum RoleEnum {
+        ADMIN(1),
+        OPERATOR(2),
+        CUSTOMER(3);
+
+        private final int id;
+
+        RoleEnum(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+    }
+
 }

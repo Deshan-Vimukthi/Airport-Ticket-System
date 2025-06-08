@@ -47,6 +47,12 @@ public class User {
     @JoinColumn(name = "user_status_id")
     private UserStatus userStatus;
 
+    @Column(name = "reset_token")
+    private String resetToken;
+
+    @Column(name = "reset_token_expiry")
+    private LocalDateTime resetTokenExpiry;
+
     @Column(name = "created_date")
     private LocalDateTime createDate;
 

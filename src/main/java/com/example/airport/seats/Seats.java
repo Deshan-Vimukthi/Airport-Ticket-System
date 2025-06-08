@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Table(name = "seats")
 @Entity
 @Data
@@ -40,5 +42,30 @@ public class Seats {
     @ManyToOne
     @JoinColumn(name = "availability_id")
     private Availability availability;
+
+    public boolean isInRange(Seats start, Seats end) {
+        if (start == null || end == null) return false;
+
+        // Normalize the range
+        Seats from = start;
+        Seats to = end;
+
+        if (compareSeats(start, end) > 0) {
+            from = end;
+            to = start;
+        }
+
+        // Check if current seat is between from and to
+        return compareSeats(this, from) >= 0 && compareSeats(this, to) <= 0;
+    }
+
+    // Compares seats like strings on column then numberically on row
+    private int compareSeats(Seats a, Seats b) {
+        if (!Objects.equals(a.columnId, b.columnId)) {
+            return Integer.compare(a.columnId, b.columnId);
+        }
+        return Integer.compare(a.rowId, b.rowId);
+    }
+
 
 }

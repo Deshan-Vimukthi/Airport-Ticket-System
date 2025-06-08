@@ -1,7 +1,11 @@
 package com.example.airport.seatHasClass;
 
+import com.example.airport.airplane.Airplane;
+import com.example.airport.airport.Airport;
 import com.example.airport.flight.Flight;
 import com.example.airport.seatClasses.SeatClasses;
+import com.example.airport.seatLayout.SeatLayout;
+import com.example.airport.seats.Seats;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,13 +24,24 @@ public class SeatHasClass {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "flight_id")
-    private Flight flight;
+    @JoinColumn(name = "airplane_id")
+    private Airplane airplane;
 
     @ManyToOne
     @JoinColumn(name = "class_id")
     private SeatClasses seatClasses;
 
-    @Column(name = "price")
-    private Integer price;
+    @ManyToOne
+    @JoinColumn(name = "first_seat_no")
+    private Seats firstSeatNo;
+
+    @ManyToOne
+    @JoinColumn(name = "last_seat_no")
+    private Seats lastSeatNo;
+
+    @ManyToOne
+    @JoinColumn(name = "seat_layout_id")
+    private SeatLayout seatLayout;
+
+
 }

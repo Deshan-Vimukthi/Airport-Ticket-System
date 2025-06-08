@@ -1,5 +1,6 @@
 package com.example.airport.seatLayout;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,4 +20,15 @@ public class SeatLayout {
 
     @Column(name = "name")
     private String name;
+
+    @Transient
+    @JsonProperty("rowSize")
+    public int getRowSize(){
+        int count = 0;
+        String[] seatGroups = name.split("-");
+        for(String group:seatGroups){
+            count+=Integer.parseInt(group);
+        }
+        return count;
+    }
 }

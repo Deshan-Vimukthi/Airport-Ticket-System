@@ -13,7 +13,7 @@ public class RoleViewResolver {
     private static final Map<String, Integer> ROLE_PRIORITY = Map.of(
             "PUBLIC", 0,
             "CUSTOMER", 1,
-            "OPERATOR", 2,
+            "OPERATION_MANAGER", 2,
             "ADMIN", 3
     );
 
