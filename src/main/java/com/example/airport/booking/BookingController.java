@@ -2,20 +2,29 @@ package com.example.airport.booking;
 
 import com.example.airport.ApiResponse;
 import com.example.airport.airport.Airport;
+import com.example.airport.availability.AvailabilityRepository;
 import com.example.airport.bookingStatus.BookingStatus;
 import com.example.airport.bookingStatus.BookingStatusRepository;
 import com.example.airport.exceptionHandling.AccessControlAnnotaion.HasAuthority;
 import com.example.airport.exceptionHandling.ResourceNotFoundException;
 import com.example.airport.exceptionHandling.accessDeniedException.AccessDeniedCode;
 import com.example.airport.exceptionHandling.accessDeniedException.AccessDeniedException;
+import com.example.airport.flightHasTicketPrice.FlightHasTicketPriceController;
+import com.example.airport.flightHasTicketPrice.FlightHasTicketPriceRepository;
 import com.example.airport.invoices.Invoice;
 import com.example.airport.invoices.InvoiceRepository;
 import com.example.airport.paymentMethod.PaymentMethod;
 import com.example.airport.paymentMethod.PaymentMethodRepository;
+import com.example.airport.paymentType.PaymentTypeRepository;
+import com.example.airport.payments.Payment;
+import com.example.airport.payments.PaymentRepository;
+import com.example.airport.seats.Seats;
+import com.example.airport.seats.SeatsRepository;
 import com.example.airport.userRole.UserRole;
 import com.example.airport.users.User;
 import com.example.airport.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -44,6 +53,21 @@ public class BookingController {
     @Autowired
     private UserRepository userDao;
 
+    @Autowired
+    private SeatsRepository seatsDao;
+
+    @Autowired
+    private AvailabilityRepository availabilityDao;
+
+    @Autowired
+    private FlightHasTicketPriceRepository flightHasTicketPriceDao;
+
+    @Autowired
+    private PaymentRepository paymentDao;
+
+    @Autowired
+    private PaymentTypeRepository paymentTypeDao;
+
     @HasAuthority(value = UserRole.RoleEnum.CUSTOMER,enablePriorityOrder = true)
     @PostMapping("")
     public ResponseEntity<?> createBooking(@RequestBody List<Booking> bookings){
@@ -66,6 +90,18 @@ public class BookingController {
             booking.setBookingStatus(status);
             booking.setUser(user);
 
+            Seats seat = seatsDao.getSeatById(booking.getSeat().getId()).orElseThrow(()->new ResourceNotFoundException("seat not found"));
+            seat.setAvailability(availabilityDao.getReferenceById(2));
+            seatsDao.save(seat);
+
+            Payment payment = new Payment();
+            payment.setAmount(flightHasTicketPriceDao.getFlightTicketPriceByFlightAndClass(booking.getSeat().getFlight().getId(),booking.getSeat().getSeatClasses().getId()).orElseThrow(()->new ResourceNotFoundException("Seat haven't any value")).getPrice());
+            payment.setPaymentType(paymentTypeDao.getReferenceById(1));
+            payment.setReason("Booking : " + booking.getSeat().getColumnId() + "_" + booking.getSeat().getRowId());
+            payment.setPaymentMethod(invoice.getPaymentMethod());
+            payment.setInvoice(invoice);
+
+            paymentDao.save(payment);
             bookingDao.save(booking);
         }
         return ResponseEntity.ok(ApiResponse.success("Booking created successfully",invoice));
@@ -87,6 +123,15 @@ public class BookingController {
     public ResponseEntity<?> bookingList(){
         List<Booking> bookingList = bookingDao.findAll();
         return ResponseEntity.ok(ApiResponse.success(bookingList));
+    }
+
+    @HasAuthority(value = UserRole.RoleEnum.OPERATOR,enablePriorityOrder = true)
+    @GetMapping("/flight/{id}")
+    public ResponseEntity<?> bookingListByFlight(@PathVariable("id") Integer id){
+        List<Booking> bookings = bookingDao.getBookingByFlight(id);
+        if(!bookings.isEmpty())
+            return ResponseEntity.ok(ApiResponse.success(bookings));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("Flight have not bookings"));
     }
 
     @HasAuthority(value = UserRole.RoleEnum.CUSTOMER,enablePriorityOrder = true)
@@ -112,7 +157,18 @@ public class BookingController {
         }
         booking.setBookingStatus(bookingStatusDao.getBookingStatusById(3));
 
+        Seats seat = seatsDao.getSeatById(booking.getSeat().getId()).orElseThrow(()->new ResourceNotFoundException("seat not found"));
+        seat.setAvailability(availabilityDao.getReferenceById(1));
+        seatsDao.save(seat);
 
+        Payment payment = new Payment();
+        payment.setAmount(flightHasTicketPriceDao.getFlightTicketPriceByFlightAndClass(booking.getSeat().getFlight().getId(),booking.getSeat().getSeatClasses().getId()).orElseThrow(()->new ResourceNotFoundException("Seat haven't any value")).getPrice());
+        payment.setPaymentType(paymentTypeDao.getReferenceById(4));
+        payment.setReason("Cancelled : " + booking.getSeat().getColumnId() + "_" + booking.getSeat().getRowId());
+        payment.setPaymentMethod(booking.getInvoice().getPaymentMethod());
+        payment.setInvoice(booking.getInvoice());
+
+        paymentDao.save(payment);
         bookingDao.save(booking);
         return ResponseEntity.ok(ApiResponse.success("Booking cancel successfully"));
     }

@@ -175,17 +175,7 @@ public class DashboardController {
         return mav;
     }
 
-    @GetMapping("/flights")
-    public ModelAndView showFlights() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userDao.findByUsername(auth.getName()).orElseThrow(()->new AccessDeniedException("User not authenticated", AccessDeniedCode.NOT_SIGNED_IN));
-        ModelAndView mav = new ModelAndView();
-        mav = MenuItem.addMenu(user, mav); // Sets sidebar and view name
-        mav.addObject("content", "flight"); // Sets which fragment to load
-        mav.addObject("selectedUrl", "/flights");
-        mav.addObject("customJSURL","/flights.js");
-        return mav;
-    }
+
 
     @GetMapping("/my-booking")
     public ModelAndView showMyBooking() {

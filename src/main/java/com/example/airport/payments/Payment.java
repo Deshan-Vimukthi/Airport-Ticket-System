@@ -21,7 +21,7 @@ public class Payment {
     private Integer id;
 
     @Column(name = "amount")
-    private Integer amount;
+    private Double amount;
 
     @ManyToOne
     @JoinColumn(name = "payment_method_id")

@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface FlightStatusRepository extends JpaRepository<FlightStatus, Integer> {
     @Query("SELECT fs FROm FlightStatus fs WHERE fs.id = ?1")
-    Optional<FlightStatus> getFlightStatus(Integer id);
+    FlightStatus getFlightStatus(Integer id);
 }
