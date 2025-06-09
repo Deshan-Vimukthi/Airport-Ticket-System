@@ -21,7 +21,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/api/employees")
 public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeDao;

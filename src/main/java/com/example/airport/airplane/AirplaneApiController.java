@@ -51,13 +51,12 @@ public class AirplaneApiController {
 
     @PostMapping("")
     public ResponseEntity<?> createAirplane(@RequestBody Airplane newAirplane) {
-        Integer count = airplaneDao.getAirplaneCountOfModelInCountry(
+        int count = airplaneDao.getAirplaneCountOfModelInCountry(
                 newAirplane.getCountry().getId(),
                 newAirplane.getModel().getId()) + 1;
 
         newAirplane.setCreatedDate(LocalDateTime.now());
-        newAirplane.setRegistrationNumber(newAirplane.getCountry().getName() + "/" +
-                newAirplane.getModel().getName() + "/" + StringModify.padStart(count, 7, '0'));
+        newAirplane.setRegistrationNumber("Air/"+ LocalDateTime.now().getYear()+ "/" + StringModify.padStart(count, 7, '0'));
 
         airplaneDao.save(newAirplane);
         return ResponseEntity.ok(Map.of("message", "Airplane created successfully."));

@@ -24,6 +24,4 @@ public class CountryController {
         Country country = countryDao.getCountryById(id);
         return ResponseEntity.ok(ApiResponse.success(country));
     }
-
-
 }

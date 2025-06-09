@@ -1,0 +1,71 @@
+<!-- templates/reports.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reports</title>
+</head>
+<body>
+<!-- This fragment will be inserted into layout.html's right-hand content -->
+<div th:fragment="content">
+    <div class="main-content">
+        <h2 class="mb-4">Reports</h2>
+
+        <!-- Filter / Actions -->
+        <div class="mb-3">
+            <form method="get" action="/reports/filter" class="d-flex gap-2">
+                <input type="text" name="search" placeholder="Search reports..." class="form-control" />
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </form>
+        </div>
+
+        <!-- Reports Table -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Report Name</th>
+                    <th>Created By</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Example row, replace with th:each -->
+                <tr>
+                    <td>1</td>
+                    <td>Flight Summary</td>
+                    <td>admin</td>
+                    <td>2025-06-08</td>
+                    <td><span class="badge bg-success">Completed</span></td>
+                    <td class="text-end">
+                        <a href="/reports/view/1" class="btn btn-sm btn-outline-primary">View</a>
+                        <a href="/reports/delete/1" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+
+                <!-- Uncomment and adapt when looping with Thymeleaf -->
+                <!--
+                <tr th:each="report : ${reportList}">
+                    <td th:text="${report.id}"></td>
+                    <td th:text="${report.name}"></td>
+                    <td th:text="${report.createdBy}"></td>
+                    <td th:text="${#dates.format(report.date, 'yyyy-MM-dd')}"></td>
+                    <td>
+                        <span th:classappend="${report.status} == 'Completed' ? 'badge bg-success' : 'badge bg-secondary'"
+                              th:text="${report.status}">Status</span>
+                    </td>
+                    <td class="text-end">
+                        <a th:href="@{'/reports/view/' + ${report.id}}" class="btn btn-sm btn-outline-primary">View</a>
+                        <a th:href="@{'/reports/delete/' + ${report.id}}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

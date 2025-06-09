@@ -20,7 +20,13 @@ public class WebConfiguration implements WebMvcConfigurer {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/static.js/**").permitAll()
+                        .requestMatchers("/login",
+                                "/images/non-permission/**",
+                                "/css/**",
+                                "/js/**",
+                                "/api/register-customer",
+                                "/api/countries"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

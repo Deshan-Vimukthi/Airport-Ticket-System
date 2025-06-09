@@ -1,0 +1,165 @@
+<!-- templates/airplanes.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Airplanes</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Users</h2>
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#userModal">
+                <i class="fa-solid fa-plus"></i> Add Users
+            </button>
+        </div>
+
+        <div class="table-responsive" id="listContainer">
+            <div class="mb-3">
+                <form method="get" action="/reports/filter" class="d-flex gap-2">
+                    <input type="text" name="search" placeholder="Search Users..." class="form-control" />
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </form>
+            </div>
+            <div id="userListContainer" class="list-group"></div>
+        </div>
+    </div>
+    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userModalLabel">Add User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form id="userForm">
+                    <div class="modal-body">
+                        <!-- Step 1: Select Type -->
+                        <div id="step1">
+                            <h6>Select User Type</h6>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="userType" id="typeCustomer" value="customer" checked>
+                                <label class="form-check-label" for="typeCustomer">Customer</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="userType" id="typeEmployee" value="employee">
+                                <label class="form-check-label" for="typeEmployee">Employee</label>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Select Existing or Add New -->
+                        <div id="step2" class="mt-4 d-none">
+                            <h6>Choose Existing or Add New</h6>
+
+                            <!-- Customer options -->
+                            <div id="customerOptions" class="d-none">
+                                <div class="mb-3">
+                                    <label class="form-label">Select Existing Customer</label>
+                                    <select class="form-select" id="customerSelect" name="customerId">
+                                        <option value="">-- Select Customer --</option>
+                                    </select>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="createNewCustomer">
+                                    <label class="form-check-label" for="createNewCustomer">Create New Customer Instead</label>
+                                </div>
+                            </div>
+
+                            <!-- Employee options -->
+                            <div id="employeeOptions" class="d-none">
+                                <div class="mb-3">
+                                    <label class="form-label">Select Existing Employee</label>
+                                    <select class="form-select" id="employeeSelect" name="employeeId">
+                                        <option value="">-- Select Employee --</option>
+                                    </select>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="createNewEmployee">
+                                    <label class="form-check-label" for="createNewEmployee">Create New Employee Instead</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- New Customer Form -->
+                        <div id="newCustomerForm" class="border p-3 mt-3 d-none bg-light rounded">
+                            <h6 class="mb-3">New Customer Details</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="newCustomerName" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="newCustomerName" name="customerName">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="newCustomerEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="newCustomerEmail" name="customerEmail">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="newCustomerPhone" class="form-label">Phone</label>
+                                    <input type="text" class="form-control" id="newCustomerPhone" name="customerPhone">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="newCustomerPassport" class="form-label">Passport Number</label>
+                                    <input type="text" class="form-control" id="newCustomerPassport" name="passportNumber">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- New Employee Form -->
+                        <div id="newEmployeeForm" class="border p-3 mt-3 d-none bg-light rounded">
+                            <h6 class="mb-3">New Employee Details</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="newEmployeeName" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="newEmployeeName" name="employeeName">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="newEmployeeEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="newEmployeeEmail" name="employeeEmail">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="newEmployeePhone" class="form-label">Phone</label>
+                                    <input type="text" class="form-control" id="newEmployeePhone" name="employeePhone">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Step 3: User Details -->
+                        <div id="step3" class="mt-4 d-none">
+                            <h6>User Details</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="userName" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="userName" name="name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="userEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="userEmail" name="email" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="userPhone" class="form-label">Phone</label>
+                                    <input type="text" class="form-control" id="userPhone" name="phone">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary d-none" id="prevStepBtn">Back</button>
+                        <button type="button" class="btn btn-primary" id="nextStepBtn">Next</button>
+                        <button type="submit" class="btn btn-success d-none" id="submitBtn">
+                            <i class="fa-solid fa-check me-1"></i> Save User
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Airplane Form Modal -->
+<!-- Flight Modal -->
+
+</body>
+</html>

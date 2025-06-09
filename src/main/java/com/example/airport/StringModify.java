@@ -3,16 +3,17 @@ package com.example.airport;
 import java.util.Arrays;
 
 public class StringModify {
-    public static String padStart(String text,int length, char placeHolder){
-        while (text.length()<length){
-            char[] charArray = new char[text.length()+1];
-            charArray[0] = placeHolder;
-            text.getChars(0,text.length()-1,charArray,1);
-            text = Arrays.toString(charArray);
+
+    public static String padStart(String text, int length, char placeHolder) {
+        StringBuilder sb = new StringBuilder();
+        while (sb.length() + text.length() < length) {
+            sb.append(placeHolder);
         }
-        return text;
+        sb.append(text);
+        return sb.toString();
     }
-    public static String padStart(Integer text,int length, char placeHolder){
-        return padStart(text.toString(),length,placeHolder);
+
+    public static String padStart(Integer number, int length, char placeHolder) {
+        return padStart(number.toString(), length, placeHolder);
     }
 }

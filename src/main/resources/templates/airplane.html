@@ -1,0 +1,107 @@
+<!-- templates/airplanes.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Airplanes</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Airplanes</h2>
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#airplaneModal">
+                <i class="fa-solid fa-plus"></i> Add Flight
+            </button>
+        </div>
+
+        <div class="table-responsive" id="listContainer">
+            <div class="mb-3">
+                <form method="get" action="/reports/filter" class="d-flex gap-2">
+                    <input type="text" name="search" placeholder="Search reports..." class="form-control" />
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </form>
+            </div>
+            <div id="airplaneTableBody">
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="airplaneModal" tabindex="-1" aria-labelledby="airplaneModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- modal header -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="flightModalLabel">Add Flight</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- modal body -->
+                <form id="airplaneForm">
+                    <div class="modal-body">
+                        <div class="row g-3">
+
+                            <!-- Name -->
+                            <div class="col-md-6">
+                                <label for="airplaneName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="airplaneName" name="name" required>
+                            </div>
+
+                            <!-- Model: select + optional input -->
+                            <div class="col-md-6">
+                                <label class="form-label">Model</label>
+                                <div class="input-group">
+                                    <select class="form-select" id="modelSelect" name="modelId">
+
+                                    </select>
+                                    <input type="text" class="form-control" id="modelInput" name="customModel" placeholder="or enter new model">
+                                </div>
+                            </div>
+
+                            <!-- Manufacture -->
+                            <div class="col-md-6">
+                                <label for="manufacture" class="form-label">Manufacture</label>
+                                <input type="text" class="form-control" id="manufacture" name="manufacture">
+                            </div>
+
+                            <!-- Country -->
+                            <div class="col-md-6">
+                                <label for="country" class="form-label">Country</label>
+                                <select class="form-select" id="country" name="countryId" required>
+
+                                </select>
+                            </div>
+
+                            <!-- Airline -->
+                            <div class="col-md-6">
+                                <label for="airline" class="form-label">Airline</label>
+                                <input type="text" class="form-control" id="airline" name="airline">
+                            </div>
+
+                            <!-- Row Count -->
+                            <div class="col-md-6">
+                                <label for="rowCount" class="form-label">Row Count</label>
+                                <input type="number" class="form-control" id="rowCount" name="rowCount" min="1">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-floppy-disk me-1"></i> Save
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fa-solid fa-xmark me-1"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Airplane Form Modal -->
+<!-- Flight Modal -->
+
+</body>
+</html>

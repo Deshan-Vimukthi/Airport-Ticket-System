@@ -1,0 +1,56 @@
+html, body {
+    height: 100% !important;
+}
+
+.w-90 {
+    min-width: 100% !important;
+}
+.log-contain{
+    padding: 10px;
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 40px;
+    margin-right:40px;
+    width: 70% !important;
+}
+.h-90 {
+    height: 70%;
+}
+
+.carousel-inner{
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.carousel-inner,
+.carousel-item,
+.carousel-item img {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.carousel-item img {
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+
+.overflow-hidden{
+    overflow: hidden;
+}
+
+.nav-link.active{
+    background: #0d6efd;
+    padding: 10px;
+    border-radius: 5px 5px 0 0;
+    font-style: bold;
+    color: white;
+}
+
+.tab-content{
+    border:  #0d6efd 2px solid;
+    padding: 5px;
+    border-radius: 5px;
+}

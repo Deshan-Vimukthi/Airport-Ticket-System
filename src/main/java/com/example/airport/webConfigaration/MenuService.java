@@ -13,9 +13,9 @@ public class MenuService {
     public List<MenuItem> getMenuForRole(String role) {
         // Simulate heavy logic or DB calls
         List<MenuItem> menu = new ArrayList<>();
-        if ("ROLE_ADMIN".equals(role)) {
+        if ("ADMIN".equals(role)) {
             menu.add(new MenuItem("Admin Dashboard", "/admin", "fa fa-lock"));
-        } else if ("ROLE_USER".equals(role)) {
+        } else if ("CUSTOMER".equals(role)) {
             menu.add(new MenuItem("User Dashboard", "/user", "fa fa-home"));
         }
         // ... Add more role handling
