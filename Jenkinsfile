@@ -22,6 +22,7 @@ pipeline {
             sh "docker push $DOCKER_BFLASK_IMAGE"
           }
         }
+      }
     }
   }
   post {
