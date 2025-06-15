@@ -5,7 +5,7 @@ pipeline {
     stage('Build') {
       steps {
         sh 'docker build -t sample .'
-        sh  'docker tag myjava1 $DOCKER_BFLASK_IMAGE'
+        sh  'docker tag sample $DOCKER_BFLASK_IMAGE'
       }
     }
     stage('Test') {
